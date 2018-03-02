@@ -16,13 +16,13 @@ Why not marry these great tools?
 In your project:
 
 ```
-npm install rxreact --save
+npm install @rxreact/core --save
 ```
 
 or
 
 ```
-yarn add rxreact
+yarn add @rxreact/core
 ```
 
 RxJS and React are peer dependencies and need to be installed seperately
@@ -30,6 +30,8 @@ RxJS and React are peer dependencies and need to be installed seperately
 ## Basic Usage
 
 RxReact is tool for integrating your React apps with RxJS. It leverages the power of Typescript to provide strong gaurantees that your Rx Observables and Subjects will integrate properly with your React components
+
+[Typedocs for RxReact](https://hannahhoward.github.io/rxreact)
 
 ### Defining a View Model
 
@@ -109,7 +111,7 @@ What happens when you connect this component to view model listed above?
 You connect components to view models by calling `withViewModel`, like so:
 
 ```typescript
-import { withViewModel } from "rxreact";
+import { withViewModel } from "@rxreact/core";
 let CarComponentWithVm = withViewModel(vm, CarComponent);
 ```
 
