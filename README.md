@@ -1,4 +1,4 @@
-#RxReact
+# RxReact
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Greenkeeper badge](https://badges.greenkeeper.io/hannahhoward/rxreact.svg)](https://greenkeeper.io/)
@@ -27,19 +27,9 @@ yarn add rxreact
 
 RxJS and React are peer dependencies and need to be installed seperately
 
-```
-npm install rxjs react --save
-```
-
-or
-
-```
-yarn add rxjs react
-```
-
 ## Basic Usage
 
-RxReact is tool for integrating your React apps with RxJS. It leverages the power of Typescript to enhance this integration by providing strong gaurantees that your Rx Observables and Subjects will integrate properly with your React components
+RxReact is tool for integrating your React apps with RxJS. It leverages the power of Typescript to provide strong gaurantees that your Rx Observables and Subjects will integrate properly with your React components
 
 ### Defining a View Model
 
@@ -116,7 +106,7 @@ let CarComponent: React.SFC<CarComponentProps> = ({ cars, selectedCar, selectCar
 
 What happens when you connect this component to view model listed above?
 
-You connect components to view models by calling `withViewModel`, provided by RxReact (currently actually the only tool exported by RxReact), like so:
+You connect components to view models by calling `withViewModel`, like so:
 
 ```typescript
 import { withViewModel } from "rxreact";
