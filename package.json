@@ -1,18 +1,16 @@
 {
   "name": "@rxreact/core",
-  "version": "0.0.0-development",
+  "version": "1.0.1",
   "description": "",
   "keywords": [],
   "main": "dist/rxreact.umd.js",
   "module": "dist/rxreact.es5.js",
   "typings": "dist/types/rxreact.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "author": "hannahhoward <hannah@hannahhoward.net>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hannahhoward/rxreact.git"
+    "url": "https://github.com/carbonfive/rxreact.git"
   },
   "license": "MIT",
   "engines": {
@@ -21,7 +19,8 @@
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build":
+      "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -35,10 +34,7 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write --no-semi --single-quote",
-      "git add"
-    ]
+    "{src,test}/**/*.ts": ["prettier --write --no-semi --single-quote", "git add"]
   },
   "config": {
     "commitizen": {
@@ -46,7 +42,8 @@
     },
     "validate-commit-msg": {
       "types": "conventional-commit-types",
-      "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+      "helpMessage":
+        "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     }
   },
   "jest": {
@@ -54,15 +51,8 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
     "coverageThreshold": {
       "global": {
         "branches": 90,
