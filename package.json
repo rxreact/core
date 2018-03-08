@@ -1,8 +1,19 @@
 {
   "name": "@rxreact/core",
   "version": "1.0.1",
-  "description": "",
-  "keywords": [],
+  "description": "Typescript based RX bindings for React",
+  "keywords": [
+    "rxjs",
+    "react",
+    "rx",
+    "typescript",
+    "javascript",
+    "state",
+    "observable",
+    "reactive",
+    "rxreact",
+    "rx-react"
+  ],
   "main": "dist/rxreact.umd.js",
   "module": "dist/rxreact.es5.js",
   "typings": "dist/types/rxreact.d.ts",
