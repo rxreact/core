@@ -1,9 +1,11 @@
 # RxReact
 
+Typescript based RX bindings for React
+
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Greenkeeper badge](https://badges.greenkeeper.io/hannahhoward/rxreact.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/hannahhoward/rxreact.svg?branch=master)](https://travis-ci.org/hannahhoward/rxreact)
-[![Coverage Status](https://coveralls.io/repos/github/hannahhoward/rxreact/badge.svg?branch=master)](https://coveralls.io/github/hannahhoward/rxreact?branch=master)
+[![Greenkeeper badge](https://badges.greenkeeper.io/carbonfive/rxreact.svg)](https://greenkeeper.io/)
+[![CircleCI](https://circleci.com/gh/carbonfive/rxreact.svg?style=svg)](https://circleci.com/gh/carbonfive/rxreact)
+[![Coverage Status](https://coveralls.io/repos/github/carbonfive/rxreact/badge.svg?branch=master)](https://coveralls.io/github/carbonfive/rxreact?branch=master)
 
 React is a great library for implementing the view layer of web applications.
 RxJS is a great library for handling state management and implementing your domain model in a web application
