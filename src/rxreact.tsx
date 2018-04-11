@@ -30,8 +30,8 @@ function withViewModelFactory<S, A, P extends S & ActionMap<A>>(
       constructor(props: Difference<P, S & ActionMap<A>>) {
         super(props);
         let viewModel = viewModelFactory(this.propsObservable);
-        this.observableState = combineObservables(viewModel.inputs);
-        this.actions = subjectMapToActionMap(viewModel.outputs);
+        this.observableState = viewModel.inputs ? combineObservables(viewModel.inputs) : Observable.of({}) as Observable<S>;
+        this.actions = viewModel.outputs ? subjectMapToActionMap(viewModel.outputs) : {} as ActionMap<A>;
       }
 
       componentWillMount() {

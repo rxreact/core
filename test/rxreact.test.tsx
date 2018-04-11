@@ -7,6 +7,29 @@ import { mount, ReactWrapper } from "enzyme";
 import { ViewModel } from "../src/types";
 
 describe("withViewModel", () => {
+  describe("given no inputs or outputs", () => {
+    let Component: React.SFC = ({}) => <div>I'm rendered</div>;
+    let rendered: ReactWrapper<any, any>;
+
+    function subject() {
+      let vm = {};
+      let ComponentWithViewModel = withViewModel(vm, Component);
+      return mount(<ComponentWithViewModel />);
+    }
+
+    beforeEach(() => {
+      rendered = subject();
+    });
+    afterEach(() => {
+      rendered.unmount();
+    });
+
+    it("renders immediatly", () => {
+      expect(rendered.exists()).toEqual(true);
+      expect(rendered.text()).toContain("I'm rendered");
+    });
+  });
+
   describe("given a static view model definition", () => {
     let numberSubject: Subject<number> = new Subject();
     let stringSubject: Subject<string> = new Subject();
