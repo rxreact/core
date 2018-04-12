@@ -10,7 +10,6 @@ import {
   Difference,
   ViewModel
 } from "./types";
-
 function withViewModelFactory<S, A, P extends S & ActionMap<A>>(
   viewModelFactory: ViewModelFactory<S, A, Difference<P, S & ActionMap<A>>>
 ): (
@@ -34,13 +33,15 @@ function withViewModelFactory<S, A, P extends S & ActionMap<A>>(
         this.actions = viewModel.outputs ? subjectMapToActionMap(viewModel.outputs) : {} as ActionMap<A>;
       }
 
-      componentWillMount() {
+      componentDidMount() {
         this.propsObservable.next(this.props);
         this.subscription = this.observableState.subscribe(newState => this.setState(newState));
       }
 
-      componentWillReceiveProps(nextProps: Difference<P, S & ActionMap<A>>) {
-        this.propsObservable.next(nextProps);
+      componentDidUpdate(prevProps: Difference<P, S & ActionMap<A>>) {
+        if (this.props !== prevProps) {
+          this.propsObservable.next(this.props);
+        }
       }
 
       componentWillUnmount() {
