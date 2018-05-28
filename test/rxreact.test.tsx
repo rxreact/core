@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Observable, Subject } from "rxjs";
 import { combineLatest } from "rxjs/observable/combineLatest";
-import { map, startWith } from "rxjs/operators";
+import { map, startWith, merge } from "rxjs/operators";
 import { withViewModel } from "../src/rxreact";
 import { mount, ReactWrapper } from "enzyme";
 import { ViewModel } from "../src/types";
@@ -31,11 +31,6 @@ describe("withViewModel", () => {
   });
 
   describe("given a static view model definition", () => {
-    let numberSubject: Subject<number> = new Subject();
-    let stringSubject: Subject<string> = new Subject();
-    let derived1Signal: Observable<string>;
-    let derived2Signal: Observable<string>;
-
     interface ComponentProps {
       otherProp: string;
       derived1: string;
@@ -67,97 +62,212 @@ describe("withViewModel", () => {
       );
     };
 
-    function subject() {
-      let vm = {
-        inputs: {
-          derived1: derived1Signal,
-          derived2: derived2Signal
-        },
-        outputs: {
-          inputNumber: numberSubject,
-          inputString: stringSubject
-        }
-      };
-      let ComponentWithViewModel = withViewModel(vm, Component);
-      return mount(<ComponentWithViewModel otherProp={"cheese"} />);
-    }
+    describe("given as seperate signals", function() {
+      let numberSubject: Subject<number> = new Subject();
+      let stringSubject: Subject<string> = new Subject();
+      let derived1Signal: Observable<string>;
+      let derived2Signal: Observable<string>;
 
-    let rendered: ReactWrapper<any, any>;
+      function subject() {
+        let vm = {
+          inputs: {
+            derived1: derived1Signal,
+            derived2: derived2Signal
+          },
+          outputs: {
+            inputNumber: numberSubject,
+            inputString: stringSubject
+          }
+        };
+        let ComponentWithViewModel = withViewModel(vm, Component);
+        return mount(<ComponentWithViewModel otherProp={"cheese"} />);
+      }
 
-    describe("with a view model that has an initial value for state", () => {
-      beforeEach(() => {
-        derived1Signal = combineLatest(numberSubject, stringSubject).pipe(
-          map(([num, str]) => `${num} ${str}`),
-          startWith("2 bananas")
-        );
-        derived2Signal = Observable.of("applesauce");
-        rendered = subject();
-      });
-      afterEach(() => {
-        rendered.unmount();
-      });
+      let rendered: ReactWrapper<any, any>;
 
-      it("renders passed in properties", () => {
-        expect(rendered.find("#other").text()).toContain("cheese");
-      });
-      it("renders initial state", () => {
-        expect(rendered.find("#state").text()).toContain("We have 2 bananas");
-      });
-
-      describe("when actions are called", () => {
-        it("emits values from subjects", () => {
-          expect.assertions(2);
-          let numberSubscription = numberSubject.subscribe(num => expect(num).toBe(6));
-          let stringSubscription = stringSubject.subscribe(str => expect(str).toBe("apples"));
-
-          rendered.find("#number-button").simulate("click");
-          rendered.find("#string-button").simulate("click");
+      describe("with a view model that has an initial value for state", () => {
+        beforeEach(() => {
+          derived1Signal = combineLatest(numberSubject, stringSubject).pipe(
+            map(([num, str]) => `${num} ${str}`),
+            startWith("2 bananas")
+          );
+          derived2Signal = Observable.of("applesauce");
+          rendered = subject();
+        });
+        afterEach(() => {
+          rendered.unmount();
         });
 
-        it("updates the dom as observables change", () => {
-          rendered.find("#number-button").simulate("click");
-          // no update -- derived observable only emits when both subjects have emitted
+        it("renders passed in properties", () => {
+          expect(rendered.find("#other").text()).toContain("cheese");
+        });
+        it("renders initial state", () => {
           expect(rendered.find("#state").text()).toContain("We have 2 bananas");
-          rendered.find("#string-button").simulate("click");
-          expect(rendered.find("#state").text()).toContain("We have 6 apples");
+        });
+
+        describe("when actions are called", () => {
+          it("emits values from subjects", () => {
+            expect.assertions(2);
+            let numberSubscription = numberSubject.subscribe(num => expect(num).toBe(6));
+            let stringSubscription = stringSubject.subscribe(str => expect(str).toBe("apples"));
+
+            rendered.find("#number-button").simulate("click");
+            rendered.find("#string-button").simulate("click");
+          });
+
+          it("updates the dom as observables change", () => {
+            rendered.find("#number-button").simulate("click");
+            // no update -- derived observable only emits when both subjects have emitted
+            expect(rendered.find("#state").text()).toContain("We have 2 bananas");
+            rendered.find("#string-button").simulate("click");
+            expect(rendered.find("#state").text()).toContain("We have 6 apples");
+          });
+        });
+
+        describe("when props change", () => {
+          it("updates the dom as expected", () => {
+            rendered.setProps({ otherProp: "moldy cheese" });
+            expect(rendered.find("#other").text()).toContain("moldy cheese");
+          });
         });
       });
 
-      describe("when props change", () => {
-        it("updates the dom as expected", () => {
-          rendered.setProps({ otherProp: "moldy cheese" });
-          expect(rendered.find("#other").text()).toContain("moldy cheese");
+      describe("with a view model that has no initial value for state", () => {
+        let initDerivedSignal2: Subject<string> = new Subject();
+        beforeEach(() => {
+          derived1Signal = combineLatest(numberSubject, stringSubject).pipe(
+            map(([num, str]) => `${num} ${str}`),
+            startWith("2 bananas")
+          );
+          derived2Signal = initDerivedSignal2;
+          rendered = subject();
+        });
+        afterEach(() => {
+          rendered.unmount();
+        });
+
+        it("renders nothing until all observables have values", () => {
+          expect(rendered.exists()).toEqual(true);
+        });
+
+        describe("when observables get values", () => {
+          beforeEach(async () => {
+            initDerivedSignal2.next("applesauce");
+          });
+
+          it("renders content", () => {
+            rendered.update();
+            expect(rendered.find("#other").text()).toContain("cheese");
+            expect(rendered.find("#state").text()).toContain("We have 2 bananas applesauce");
+          });
         });
       });
     });
 
-    describe("with a view model that has no initial value for state", () => {
-      let initDerivedSignal2: Subject<string> = new Subject();
-      beforeEach(() => {
-        derived1Signal = combineLatest(numberSubject, stringSubject).pipe(
-          map(([num, str]) => `${num} ${str}`),
-          startWith("2 bananas")
-        );
-        derived2Signal = initDerivedSignal2;
-        rendered = subject();
-      });
-      afterEach(() => {
-        rendered.unmount();
-      });
+    describe("given as single state signal", () => {
+      let numberSubject: Subject<number> = new Subject();
+      let stringSubject: Subject<string> = new Subject();
+      let derived: Observable<{ derived1: string; derived2: string }>;
 
-      it("renders nothing until all observables have values", () => {
-        expect(rendered.exists()).toEqual(true);
-      });
+      function subject() {
+        let vm = {
+          inputs: derived,
+          outputs: {
+            inputNumber: numberSubject,
+            inputString: stringSubject
+          }
+        };
+        let ComponentWithViewModel = withViewModel(vm, Component);
+        return mount(<ComponentWithViewModel otherProp={"cheese"} />);
+      }
 
-      describe("when observables get values", () => {
-        beforeEach(async () => {
-          initDerivedSignal2.next("applesauce");
+      let rendered: ReactWrapper<any, any>;
+
+      describe("with a view model that has an initial value for state", () => {
+        beforeEach(() => {
+          derived = combineLatest(numberSubject, stringSubject).pipe(
+            map(([num, str]) => ({
+              derived1: `${num} ${str}`,
+              derived2: "applesauce"
+            })),
+            startWith({
+              derived1: "2 bananas",
+              derived2: "applesauce"
+            })
+          );
+          rendered = subject();
+        });
+        afterEach(() => {
+          rendered.unmount();
         });
 
-        it("renders content", () => {
-          rendered.update();
+        it("renders passed in properties", () => {
           expect(rendered.find("#other").text()).toContain("cheese");
-          expect(rendered.find("#state").text()).toContain("We have 2 bananas applesauce");
+        });
+        it("renders initial state", () => {
+          expect(rendered.find("#state").text()).toContain("We have 2 bananas");
+        });
+
+        describe("when actions are called", () => {
+          it("emits values from subjects", () => {
+            expect.assertions(2);
+            let numberSubscription = numberSubject.subscribe(num => expect(num).toBe(6));
+            let stringSubscription = stringSubject.subscribe(str => expect(str).toBe("apples"));
+
+            rendered.find("#number-button").simulate("click");
+            rendered.find("#string-button").simulate("click");
+          });
+
+          it("updates the dom as observables change", () => {
+            rendered.find("#number-button").simulate("click");
+            // no update -- derived observable only emits when both subjects have emitted
+            expect(rendered.find("#state").text()).toContain("We have 2 bananas");
+            rendered.find("#string-button").simulate("click");
+            expect(rendered.find("#state").text()).toContain("We have 6 apples");
+          });
+        });
+
+        describe("when props change", () => {
+          it("updates the dom as expected", () => {
+            rendered.setProps({ otherProp: "moldy cheese" });
+            expect(rendered.find("#other").text()).toContain("moldy cheese");
+          });
+        });
+      });
+
+      describe("with a view model that has no initial value for state", () => {
+        let initDerivedSignal: Subject<{ derived1: string; derived2: string }> = new Subject();
+        beforeEach(() => {
+          derived = combineLatest(numberSubject, stringSubject).pipe(
+            map(([num, str]) => ({
+              derived1: `${num} ${str}`,
+              derived2: "applesauce"
+            })),
+            merge(initDerivedSignal)
+          );
+          rendered = subject();
+        });
+        afterEach(() => {
+          rendered.unmount();
+        });
+
+        it("renders nothing until all observables have values", () => {
+          expect(rendered.exists()).toEqual(true);
+        });
+
+        describe("when observables get values", () => {
+          beforeEach(async () => {
+            initDerivedSignal.next({
+              derived1: "2 bananas",
+              derived2: "applesauce"
+            });
+          });
+
+          it("renders content", () => {
+            rendered.update();
+            expect(rendered.find("#other").text()).toContain("cheese");
+            expect(rendered.find("#state").text()).toContain("We have 2 bananas applesauce");
+          });
         });
       });
     });

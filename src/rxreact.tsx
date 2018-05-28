@@ -10,6 +10,16 @@ import {
   Difference,
   ViewModel
 } from "./types";
+
+function getObservableState<S>(
+  inputs: ObservableMap<S> | Observable<S> | undefined
+): Observable<S> {
+  if (inputs instanceof Observable) {
+    return inputs;
+  }
+  return inputs ? combineObservables(inputs) : (Observable.of({}) as Observable<S>);
+}
+
 function withViewModelFactory<S, A, P extends S & ActionMap<A>>(
   viewModelFactory: ViewModelFactory<S, A, Difference<P, S & ActionMap<A>>>
 ): (
@@ -29,9 +39,7 @@ function withViewModelFactory<S, A, P extends S & ActionMap<A>>(
       constructor(props: Difference<P, S & ActionMap<A>>) {
         super(props);
         let viewModel = viewModelFactory(this.propsObservable);
-        this.observableState = viewModel.inputs
-          ? combineObservables(viewModel.inputs)
-          : (Observable.of({}) as Observable<S>);
+        this.observableState = getObservableState(viewModel.inputs);
         this.actions = viewModel.outputs
           ? subjectMapToActionMap(viewModel.outputs)
           : ({} as ActionMap<A>);

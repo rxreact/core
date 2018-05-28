@@ -13,7 +13,7 @@ export type DiffUnion<T extends string, U extends string> = ({ [P in T]: P } &
   { [P in U]: never } & { [k: string]: never })[T]
 
 export interface ViewModel<S, A> {
-  inputs?: ObservableMap<S>
+  inputs?: ObservableMap<S> | Observable<S>
   outputs?: SubjectMap<A>
 }
 
