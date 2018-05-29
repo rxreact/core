@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs'
+import { Observable, combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { combineLatest } from 'rxjs/observable/combineLatest'
 import { ObservableMap } from './types'
 import { mapArrayFromKeysOf, toupleArrayToDict } from './utils'
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { subjectMapToActionMap } from "./subjectMapToActionMap";
 import { combineObservables } from "./combineObservables";
-import { Observable, Subject, Subscription, ReplaySubject } from "rxjs";
+import { Observable, Subject, Subscription, ReplaySubject, of } from "rxjs";
 import {
   ObservableMap,
   SubjectMap,
@@ -17,7 +17,7 @@ function getObservableState<S>(
   if (inputs instanceof Observable) {
     return inputs;
   }
-  return inputs ? combineObservables(inputs) : (Observable.of({}) as Observable<S>);
+  return inputs ? combineObservables(inputs) : (of({}) as Observable<S>);
 }
 
 function withViewModelFactory<S, A, P extends S & ActionMap<A>>(

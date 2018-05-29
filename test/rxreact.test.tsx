@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Observable, Subject } from "rxjs";
-import { combineLatest } from "rxjs/observable/combineLatest";
+import { Observable, Subject, combineLatest, of } from "rxjs";
 import { map, startWith, merge } from "rxjs/operators";
 import { withViewModel } from "../src/rxreact";
 import { mount, ReactWrapper } from "enzyme";
@@ -91,7 +90,7 @@ describe("withViewModel", () => {
             map(([num, str]) => `${num} ${str}`),
             startWith("2 bananas")
           );
-          derived2Signal = Observable.of("applesauce");
+          derived2Signal = of("applesauce");
           rendered = subject();
         });
         afterEach(() => {
@@ -280,7 +279,7 @@ describe("withViewModel", () => {
       return {
         inputs: {
           propDerived: otherProps.pipe(map(otherProps => `how bout some ${otherProps.otherProp}`)),
-          subjectDerived: tempSubject.startWith("oranges")
+          subjectDerived: tempSubject.pipe(startWith("oranges"))
         },
         outputs: {
           inputString: tempSubject
