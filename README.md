@@ -114,7 +114,7 @@ You connect components to view models by calling `withViewModel`, like so:
 
 ```typescript
 import { withViewModel } from "@rxreact/core";
-let CarComponentWithVm = withViewModel(vm, CarComponent);
+let CarComponentWithVm = withViewModel(vm)(CarComponent);
 ```
 
 This higher order component function produces a new component that is connected to the view model. For each key in the `inputs` of the view model, the component receives a prop of the same name, whose value is populated with the latest value emitted by the Observable given in the view model. For each key in the `outputs` of the view model, the component receives a prop of the same name that is a function which takes a single parameter. When called, that parameter is pushed on the stream emitted by the Subject given in the view model (by calling `.next`).
@@ -140,7 +140,7 @@ let vm = {
     selectCar: selectCar$
   }
 };
-withViewModel(vm, CarComponent) // type error -- car component does not expect someOtherObservable prop
+withViewModel(vm)(CarComponent) // type error -- car component does not expect someOtherObservable prop
 ```
 
 ```typescript
@@ -154,7 +154,7 @@ let vm = {
     selectCar: selectCar$
   }
 };
-withViewModel(vm, CarComponent); // type error -- cars property type does match type emitted by users$ observable
+withViewModel(vm)(CarComponent); // type error -- cars property type does match type emitted by users$ observable
 ```
 
 ```typescript
@@ -175,7 +175,7 @@ let vm = {
     selectCar: selectCar$
   }
 };
-let CarComponentWithVM = withViewModel(vm, CarComponent); // this will actually compile, cause now cars becomes a property that is required by CarComponentWithVM
+let CarComponentWithVM = withViewModel(vm)(CarComponent); // this will actually compile, cause now cars becomes a property that is required by CarComponentWithVM
 
 function CallingComponent({}) {
   return (
@@ -238,7 +238,7 @@ let vmFactory = (ownProps$: Observable<{ car: Car | undefined })) => {
   }
 }
 
-let CarFormComponentWithVM = withViewModel(CarFormComponent)
+let CarFormComponentWithVM = withViewModel(vmFactory)(CarFormComponent)
 ```
 
 Note that this form pattern could be generalized into a library for making reactive forms. In the future, RxReact may offer such a form library.

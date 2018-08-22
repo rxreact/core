@@ -3,7 +3,6 @@ import { Observable, Subject, combineLatest, of } from "rxjs";
 import { map, startWith, merge } from "rxjs/operators";
 import { withViewModel } from "../src/rxreact";
 import { mount, ReactWrapper } from "enzyme";
-import { ViewModel } from "../src/types";
 
 describe("withViewModel", () => {
   describe("given no inputs or outputs", () => {
@@ -12,7 +11,7 @@ describe("withViewModel", () => {
 
     function subject() {
       let vm = {};
-      let ComponentWithViewModel = withViewModel(vm, Component);
+      let ComponentWithViewModel = withViewModel(vm)(Component);
       return mount(<ComponentWithViewModel />);
     }
 
@@ -78,7 +77,7 @@ describe("withViewModel", () => {
             inputString: stringSubject
           }
         };
-        let ComponentWithViewModel = withViewModel(vm, Component);
+        let ComponentWithViewModel = withViewModel(vm)(Component);
         return mount(<ComponentWithViewModel otherProp={"cheese"} />);
       }
 
@@ -176,7 +175,7 @@ describe("withViewModel", () => {
             inputString: stringSubject
           }
         };
-        let ComponentWithViewModel = withViewModel(vm, Component);
+        let ComponentWithViewModel = withViewModel(vm)(Component);
         return mount(<ComponentWithViewModel otherProp={"cheese"} />);
       }
 
@@ -312,7 +311,7 @@ describe("withViewModel", () => {
       );
     };
 
-    let ComponentWithViewModel = withViewModel(vm, Component);
+    let ComponentWithViewModel = withViewModel(vm)(Component);
 
     let rendered: ReactWrapper<any, any>;
 
