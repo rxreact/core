@@ -7,10 +7,7 @@ export type ActionMap<A> = { [K in keyof A]: Action<A[K]> }
 
 export type SubjectMap<A> = { [K in keyof A]: Subject<A[K]> }
 
-export type Difference<A, Without> = Pick<A, DiffUnion<keyof A, keyof Without>>
-
-export type DiffUnion<T extends string, U extends string> = ({ [P in T]: P } &
-  { [P in U]: never } & { [k: string]: never })[T]
+export type Difference<A, Without> = Pick<A, Exclude<keyof A, keyof Without>>
 
 export interface ViewModel<S, A> {
   inputs?: ObservableMap<S> | Observable<S>
