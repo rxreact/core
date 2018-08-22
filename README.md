@@ -13,6 +13,8 @@ Typescript brings scalability and reliability of static types to Javascript.
 
 Why not marry these great tools?
 
+![Yo Dawg](https://i.imgflip.com/2gd9fp.jpg)
+
 ## Installation
 
 In your project:
