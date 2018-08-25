@@ -98,7 +98,7 @@
     "cross-env": "^5.0.1",
     "cz-conventional-changelog": "^2.0.0",
     "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-adapter-react-16": "^1.2.0",
     "husky": "^0.14.0",
     "jest": "^22.0.2",
     "lint-staged": "^7.1.2",
