@@ -1,6 +1,6 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Greenkeeper badge](https://badges.greenkeeper.io/rxreact/core.svg)](https://greenkeeper.io/)
-[![CircleCI](https://circleci.com/gh/rxreact/core.svg?style=svg)](https://circleci.com/gh/rxreact/core)
+[![Build Status](https://travis-ci.org/rxreact/core.svg?branch=master)](https://travis-ci.org/rxreact/core)
 [![Coverage Status](https://coveralls.io/repos/github/rxreact/core/badge.svg?branch=master)](https://coveralls.io/github/rxreact/core?branch=master)
 
 Development Sponsored By:  

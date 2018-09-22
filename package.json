@@ -1,6 +1,6 @@
 {
   "name": "@rxreact/core",
-  "version": "1.0.1",
+  "version": "4.0.0",
   "description": "Typescript based RX bindings for React",
   "keywords": [
     "rxjs",
@@ -116,8 +116,8 @@
     "rollup-plugin-typescript2": "^0.16.1",
     "rxjs": "^6.2.0",
     "rxjs-marbles": "^4.1.0",
-    "semantic-release": "^15.0.0",
-    "travis-deploy-once": "^5.0.0",
+    "semantic-release": "^15.9.16",
+    "travis-deploy-once": "^5.0.8",
     "ts-jest": "^23.1.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.8.0",
