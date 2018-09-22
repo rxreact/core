@@ -23,7 +23,7 @@
   "author": "hannahhoward <hannah@hannahhoward.net>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/carbonfive/rxreact.git"
+    "url": "https://github.com/rxreact/core.git"
   },
   "license": "MIT",
   "engines": {

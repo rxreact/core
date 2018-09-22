@@ -1,7 +1,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Greenkeeper badge](https://badges.greenkeeper.io/carbonfive/rxreact.svg)](https://greenkeeper.io/)
-[![CircleCI](https://circleci.com/gh/carbonfive/rxreact.svg?style=svg)](https://circleci.com/gh/carbonfive/rxreact)
-[![Coverage Status](https://coveralls.io/repos/github/carbonfive/rxreact/badge.svg?branch=master)](https://coveralls.io/github/carbonfive/rxreact?branch=master)
+[![Greenkeeper badge](https://badges.greenkeeper.io/rxreact/core.svg)](https://greenkeeper.io/)
+[![CircleCI](https://circleci.com/gh/rxreact/core.svg?style=svg)](https://circleci.com/gh/rxreact/core)
+[![Coverage Status](https://coveralls.io/repos/github/rxreact/core/badge.svg?branch=master)](https://coveralls.io/github/rxreact/core?branch=master)
 
 Development Sponsored By:  
 [![Carbon Five](./assets/C5_final_logo_horiz.png)](http://www.carbonfive.com)
