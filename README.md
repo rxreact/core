@@ -1,14 +1,19 @@
-# RxReact
-
-Typescript based RX bindings for React
-
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Greenkeeper badge](https://badges.greenkeeper.io/carbonfive/rxreact.svg)](https://greenkeeper.io/)
 [![CircleCI](https://circleci.com/gh/carbonfive/rxreact.svg?style=svg)](https://circleci.com/gh/carbonfive/rxreact)
 [![Coverage Status](https://coveralls.io/repos/github/carbonfive/rxreact/badge.svg?branch=master)](https://coveralls.io/github/carbonfive/rxreact?branch=master)
 
+Development Sponsored By:  
+[![Carbon Five](./assets/C5_final_logo_horiz.png)](http://www.carbonfive.com)
+
+
+# RxReact
+
+Typescript based RX bindings for React
+
+
 React is a great library for implementing the view layer of web applications.
-RxJS is a great library for handling state management and implementing your domain model in a web application
+RxJS is a great library for handling state management and implementing your domain model in a web application.
 Typescript brings scalability and reliability of static types to Javascript.
 
 Why not marry these great tools?
