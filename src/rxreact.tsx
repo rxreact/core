@@ -15,17 +15,19 @@ function getObservableState<S>(
 
 function withViewModelFactory<S, A, P>(
   viewModelFactory: ViewModelFactory<S, A, P>
-): <T>(WrappedComponent: React.ComponentType<T>) => React.ComponentClass<P> {
-  return function wrapWithConnect<T>(
+): <T extends S & ActionMap<A> & P>(
+  WrappedComponent: React.ComponentType<T>
+) => React.ComponentClass<Difference<T, S & ActionMap<A>> & P> {
+  return function wrapWithConnect<T extends S & ActionMap<A> & P>(
     WrappedComponent: React.ComponentType<T>
-  ): React.ComponentClass<P> {
-    return class ConnectState extends React.Component<P, S> {
+  ): React.ComponentClass<Difference<T, S & ActionMap<A>> & P> {
+    return class ConnectState extends React.Component<Difference<T, S & ActionMap<A>> & P, S> {
       subscription: Subscription | undefined;
       actions: ActionMap<A>;
       observableState: Observable<S>;
       propsObservable: Subject<P> = new ReplaySubject<P>(1);
 
-      constructor(props: P) {
+      constructor(props: Difference<T, S & ActionMap<A>> & P) {
         super(props);
         let viewModel = viewModelFactory(this.propsObservable);
         this.observableState = getObservableState(viewModel.inputs);
@@ -35,13 +37,13 @@ function withViewModelFactory<S, A, P>(
       }
 
       componentDidMount() {
-        this.propsObservable.next(this.props);
+        this.propsObservable.next(this.props as Readonly<P>);
         this.subscription = this.observableState.subscribe(newState => this.setState(newState));
       }
 
-      componentDidUpdate(prevProps: P) {
+      componentDidUpdate(prevProps: Difference<T, S & ActionMap<A>> & P) {
         if (this.props !== prevProps) {
-          this.propsObservable.next(this.props);
+          this.propsObservable.next(this.props as Readonly<P>);
         }
       }
 
@@ -81,11 +83,15 @@ export function withViewModel<S, A>(
 ) => React.ComponentClass<Difference<T, S & ActionMap<A>>>;
 export function withViewModel<S, A, P>(
   viewModel: ViewModelFactory<S, A, P>
-): (WrappedComponent: React.ComponentType<P & S & ActionMap<A>>) => React.ComponentClass<P>;
+): <T extends S & ActionMap<A> & P>(
+  WrappedComponent: React.ComponentType<T>
+) => React.ComponentClass<Difference<T, S & ActionMap<A>> & P>;
 export function withViewModel<S, A, P>(
   viewModel: ViewModel<S, A> | ViewModelFactory<S, A, P>
 ):
-  | ((WrappedComponent: React.ComponentType<P & S & ActionMap<A>>) => React.ComponentClass<P>)
+  | (<T extends S & ActionMap<A> & P>(
+      WrappedComponent: React.ComponentType<T>
+    ) => React.ComponentClass<Difference<T, S & ActionMap<A>> & P>)
   | (<T extends S & ActionMap<A>>(
       WrappedComponent: React.ComponentType<T>
     ) => React.ComponentClass<Difference<T, S & ActionMap<A>>>) {

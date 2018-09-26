@@ -288,6 +288,7 @@ describe("withViewModel", () => {
 
     interface ComponentProps {
       otherProp: string;
+      otherOtherProp: string;
       propDerived: string;
       subjectDerived: string;
       inputString: (_: string) => void;
@@ -295,12 +296,14 @@ describe("withViewModel", () => {
 
     let Component: React.SFC<ComponentProps> = ({
       otherProp,
+      otherOtherProp,
       propDerived,
       subjectDerived,
       inputString
     }) => {
       return (
         <div>
+          <p id="pass-through">{otherOtherProp}</p>
           <p id="prop-derived">{propDerived}</p>
           <p id="subject-derived">{subjectDerived}</p>
 
@@ -316,13 +319,17 @@ describe("withViewModel", () => {
     let rendered: ReactWrapper<any, any>;
 
     beforeEach(() => {
-      rendered = mount(<ComponentWithViewModel otherProp={"cheese"} />);
+      rendered = mount(
+        <ComponentWithViewModel otherOtherProp="pass-through" otherProp={"cheese"} />
+      );
     });
 
     afterEach(() => {
       rendered.unmount();
     });
-
+    it("can still pass through props", () => {
+      expect(rendered.find("#pass-through").text()).toContain("pass-through");
+    });
     it("builds derived signals from props", () => {
       expect(rendered.find("#prop-derived").text()).toContain("how bout some cheese");
     });
@@ -342,7 +349,9 @@ describe("withViewModel", () => {
       describe("when component is reinstantiated", () => {
         beforeEach(() => {
           rendered.unmount();
-          rendered = mount(<ComponentWithViewModel otherProp={"cheese"} />);
+          rendered = mount(
+            <ComponentWithViewModel otherOtherProp={"pass-through"} otherProp={"cheese"} />
+          );
         });
 
         it("resets subject derived signal", () => {
