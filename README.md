@@ -98,7 +98,7 @@ let CarComponent: React.SFC<CarComponentProps> = ({ cars, selectedCar, selectCar
       <ul>
         {
           cars.map(car => (
-            <li key={car.id} onClick={() => selectCar(car.id) } />
+            <li key={car.id} onClick={() => selectCar(car.id) } >
               {car.year} {car.make} {car.model}
             </li>
           ))
