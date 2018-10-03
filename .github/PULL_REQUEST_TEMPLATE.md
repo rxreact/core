@@ -1,5 +1,3 @@
-Pivotal story: 
-
 # Goals
 
 
@@ -7,6 +5,3 @@ Pivotal story:
 
 
 # For discussion
-
-
-# Screenshots
