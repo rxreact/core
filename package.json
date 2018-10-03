@@ -104,8 +104,8 @@
     "lodash.camelcase": "^4.3.0",
     "prettier": "^1.4.4",
     "prompt": "^1.0.0",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "replace-in-file": "^3.0.0-beta.2",
     "rimraf": "^2.6.1",
     "rollup": "^0.66.2",
@@ -126,7 +126,7 @@
     "validate-commit-msg": "^2.12.2"
   },
   "peerDependencies": {
-    "react": "^16.3.0",
+    "react": "^16.5.2",
     "rxjs": ">= 6.2.0"
   },
   "dependencies": {
