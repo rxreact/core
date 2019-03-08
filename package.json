@@ -106,7 +106,7 @@
     "prompt": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "replace-in-file": "^3.0.0-beta.2",
+    "replace-in-file": "3.4.3",
     "rimraf": "^2.6.1",
     "rollup": "^0.66.2",
     "rollup-plugin-commonjs": "^9.0.0",
