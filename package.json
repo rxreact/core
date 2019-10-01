@@ -94,7 +94,7 @@
     "colors": "^1.1.2",
     "commitizen": "^3.0.2",
     "coveralls": "^3.0.0",
-    "cross-env": "^5.0.1",
+    "cross-env": "^6.0.2",
     "cz-conventional-changelog": "^2.0.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.4.0",
